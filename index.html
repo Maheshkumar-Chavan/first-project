@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-sVdS3zLwC2b6n6C7TQdT0h8r8HnN3r7ox5s0nYk1G+8H6m6tVt1cQb+H8b2vC4h0mM1h8rqP9r0m9bE6xw2hQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
     :root{
       --bg: #0b1020;
@@ -33,13 +33,28 @@
     }
     *{box-sizing:border-box}
     html{scroll-behavior:smooth}
+
+    /* base page */
     body{
       margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto; color:var(--text);
       background: radial-gradient(1200px 600px at 10% -10%, rgba(108,99,255,.15), transparent 60%),
                   radial-gradient(1200px 600px at 110% 10%, rgba(14,165,233,.12), transparent 60%),
                   var(--bg);
       backdrop-filter:saturate(120%);
+      min-height:100vh;
     }
+
+    /* animated gradient overlay */
+    body::before{
+      content:""; position:fixed; inset:0; z-index:-3; pointer-events:none;
+      background: linear-gradient(270deg,#16213e,#0f172a,#2b2540,#13293d);
+      background-size: 800% 800%; opacity:.35; animation:grad 20s ease infinite;
+    }
+    @keyframes grad{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+
+    /* particle canvas */
+    #particle-bg{position:fixed; inset:0; z-index:-2}
+
     a{color:var(--accent); text-decoration:none}
     .container{max-width:1100px;margin:0 auto;padding:0 20px}
     header{
@@ -68,7 +83,11 @@
     .btn.primary{background:linear-gradient(135deg, var(--accent), var(--accent-2)); color:#0b1020; border:none}
     .btn:hover{transform:translateY(-1px)}
     .hero .photo{display:flex; align-items:center; justify-content:center; padding:12px}
-    .avatar{width:220px; height:220px; border-radius:24px; border:1px solid var(--border); background:linear-gradient(145deg, rgba(255,255,255,.05), rgba(255,255,255,.01)); display:grid; place-items:center; font-size:64px}
+
+    /* Circular glowing profile */
+    .profile-img{width:220px; height:220px; border-radius:50%; overflow:hidden; border:6px solid rgba(255,255,255,.08); display:grid; place-items:center; background:linear-gradient(145deg, rgba(255,255,255,.03), rgba(255,255,255,.01)); transition:box-shadow .25s, transform .25s}
+    .profile-img img{width:100%; height:100%; object-fit:cover; display:block}
+    .profile-img:hover{box-shadow:0 10px 50px rgba(155,140,255,.18); transform:translateY(-6px)}
 
     /* Sections */
     section{padding:28px; margin:22px 0}
@@ -108,9 +127,15 @@
 
     /* Tag list */
     .tags{display:flex; gap:8px; flex-wrap:wrap}
+
+    /* Responsive tweaks for long tables */
+    @media (max-width:700px){ table{min-width:600px} }
   </style>
 </head>
 <body>
+  <!-- Particle background canvas -->
+  <canvas id="particle-bg" aria-hidden="true"></canvas>
+
   <header>
     <div class="container nav">
       <a class="brand" href="#home">Maheshkumar&nbsp;S</a>
@@ -120,13 +145,10 @@
         <a href="#experience">Experience</a>
         <a href="#skills">Skills</a>
         <a href="#achievements">Achievements</a>
-        <a href="#sports">Sports</a>
         <a href="#conferences">Conferences</a>
         <a href="#workshops">Workshops</a>
-        <a href="#seminars">Seminars</a>
         <a href="#publications">Publications</a>
         <a href="#books">Book Chapters</a>
-        <a href="#libraries">Library Visits</a>
         <a href="#contact">Contact</a>
       </nav>
       <button class="theme-toggle" id="themeToggle" title="Toggle theme"><i class="fa-solid fa-circle-half-stroke"></i></button>
@@ -156,7 +178,10 @@
         </div>
       </div>
       <div class="card photo reveal" aria-hidden="true">
-        <div class="avatar"><i class="fa-solid fa-user-graduate"></i></div>
+        <div class="profile-img">
+          <!-- replace your-photo.jpg with your actual photo file -->
+          <img src="your-photo.jpg" alt="Maheshkumar S">
+        </div>
       </div>
     </section>
 
@@ -484,7 +509,7 @@
       {id:7, title:'Workshop on Open Software Tools for Research Writing — GRI–DU', date:'22 Jun 2023', mode:'Offline', cert:'Issued (Soft copy)'},
       {id:8, title:'Training Program (Online) — Quiz on Research Methodology — Dept. of Economics, Thiruvalluvar University', date:'14 Jul 2023', mode:'Online', cert:'Issued (Soft copy)'},
       {id:9, title:'Three Days National Online Workshop on Research Methodology — HI Learn Edutech Institute', date:'28–30 Nov 2023', mode:'Online', cert:'Issued (Soft copy)'},
-      {id:10, title:'Modern e‑Tools & Advanced Techniques for Drafting Research & Review Articles — Sri Sarada College for Women', date:'01 Dec 2023', mode:'Offline', cert:'Issued (Soft copy)'},
+      {id:10, title:'Modern e-Tools & Advanced Techniques for Drafting Research & Review Articles — Sri Sarada College for Women', date:'01 Dec 2023', mode:'Offline', cert:'Issued (Soft copy)'},
       {id:11, title:'Free Online Tools & AI Tools for Easy and Effective Research — Joint NSS Colleges', date:'21 May 2024', mode:'Online', cert:'Issued (Soft copy)'},
       {id:12, title:'ICSSR Sponsored Research Methodology Course (RMC) — Dept. of Architecture & Planning, MANIT, Bhopal', date:'13–22 Jul 2024', mode:'Offline', cert:'Issued (Hardcopy)'},
       {id:13, title:'Online National Workshop on Best Research Practices in Global Context — Central Library & R&D Cell', date:'14 Oct 2024', mode:'Online', cert:'Issued (Soft copy)'}
@@ -599,6 +624,45 @@
 
     // Footer year
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    /* ===== Particle background script ===== */
+    const canvas = document.getElementById('particle-bg');
+    const ctx = canvas.getContext('2d');
+    let W, H, particles = [], mouse = {x:null,y:null};
+    function resizeCanvas(){ W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+    window.addEventListener('resize', resizeCanvas); resizeCanvas();
+
+    function initParticles(){
+      particles = [];
+      const count = Math.round((W*H)/90000);
+      for(let i=0;i<count;i++){ particles.push({x:Math.random()*W, y:Math.random()*H, r:Math.random()*2+0.6, dx:(Math.random()-0.5)*0.6, dy:(Math.random()-0.5)*0.6}); }
+    }
+    initParticles();
+
+    canvas.addEventListener('mousemove', (e)=>{ mouse.x=e.clientX; mouse.y=e.clientY; });
+    canvas.addEventListener('mouseleave', ()=>{ mouse.x=null; mouse.y=null; });
+
+    function drawParticles(){
+      ctx.clearRect(0,0,W,H);
+      ctx.fillStyle = 'rgba(255,255,255,0.85)';
+      particles.forEach(p=>{
+        ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
+        // interactive repel
+        if(mouse.x && mouse.y){ const dx = p.x-mouse.x, dy = p.y-mouse.y, dist=Math.sqrt(dx*dx+dy*dy); if(dist<120){ p.x += dx/dist*2; p.y += dy/dist*2; } }
+        p.x += p.dx; p.y += p.dy;
+        if(p.x<0||p.x>W) p.dx*=-1; if(p.y<0||p.y>H) p.dy*=-1;
+      });
+      // connect lines
+      for(let i=0;i<particles.length;i++){
+        for(let j=i+1;j<particles.length;j++){
+          const a=particles[i], b=particles[j]; const dx=a.x-b.x, dy=a.y-b.y; const dist=Math.sqrt(dx*dx+dy*dy);
+          if(dist<120){ ctx.strokeStyle = 'rgba(255,255,255,'+(0.12 - (dist/120)*0.1)+')'; ctx.lineWidth=0.7; ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke(); }
+        }
+      }
+      requestAnimationFrame(drawParticles);
+    }
+    drawParticles();
+
   </script>
 </body>
 </html>
